@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改用户头像</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/asserts/css/signin.css}" rel="stylesheet">
+
+    <!--        <link rel="stylesheet"-->
+    <!--              th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />-->
+</head>
+<body>
+<!--    <form enctype="multipart/form-data" method="post" action="/api/user/image/update">-->
+<!--        文件: <input type="file" name="file"/>-->
+<!--        <input type="submit" value="上传"/>-->
+<!--    </form>-->
+
+    <!--上传头像表单开始-->
+    <form id="form-upload" class="form-horizontal" role="form">
+        <div class="form-group">
+            <p>[[${session.user.getImageUrl()}]]</p>
+            <label class="col-md-2 control-label">修改头像:</label>
+            <div class="col-md-1">
+                <img class="img-responsive" id="headPic" th:src="@{${session.user.getImageUrl()}}" width="100px" height="100px">
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-offset-2 col-md-4">
+                <input name="file" type="file">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input id="form-btn" type="button" class="btn btn-primary" value="上传" />
+            </div>
+        </div>
+    </form>
+
+    <script src="webjars/jquery/2.1.1/jquery.min.js"></script>
+    <script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            var host = window.location.host;
+            var protocol = window.location.protocol;
+            //alert(protocol+"//"+host+"/"+"image/user/default.jpg");
+            //$("#headPic").attr("src",protocol+"//"+host+"/"+"image/user/default.jpg");
+
+        });
+
+        $("#form-btn").click(function() {
+            $.ajax({
+                "url": "/api/user/image/update",
+                "data": new FormData($("#form-upload")[0]),
+                "processData": false,
+                // 文件上传不能application/json
+                // "contentType": "application/json;charset=utf-8;",
+                "contentType": false,
+                "type": "POST",
+                "dataType": "json",
+                "success": function(data) {
+                    console.log("data:"+ JSON.stringify(data));
+                    $("#headPic").attr("src",data.user.imageUrl);
+                },
+                "error": function(xhr) {
+                    alert("修改失败!！\n\nHTTP响应码：" + xhr.status);
+                    // location.href = "login.html";
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

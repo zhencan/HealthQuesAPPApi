@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.secondgroup.mapper.QuestionnaireTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.secondgroup.pojo.QuestionnaireTemplate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="template_name" jdbcType="VARCHAR" property="templateName" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="at_create" jdbcType="INTEGER" property="atCreate" />
+    <result column="at_update" jdbcType="INTEGER" property="atUpdate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from phq_questionnaire_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.secondgroup.pojo.QuestionnaireTemplate">
+    insert into phq_questionnaire_template (id, template_name, description, 
+      at_create, at_update)
+    values (#{id,jdbcType=INTEGER}, #{templateName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{atCreate,jdbcType=INTEGER}, #{atUpdate,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.secondgroup.pojo.QuestionnaireTemplate">
+    update phq_questionnaire_template
+    set template_name = #{templateName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      at_create = #{atCreate,jdbcType=INTEGER},
+      at_update = #{atUpdate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, template_name, description, at_create, at_update
+    from phq_questionnaire_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, template_name, description, at_create, at_update
+    from phq_questionnaire_template
+  </select>
+</mapper>
