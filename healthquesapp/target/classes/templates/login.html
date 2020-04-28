@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Signin Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link th:href="@{/asserts/css/signin.css}" rel="stylesheet">
+
+<!--        <link rel="stylesheet"-->
+<!--              th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />-->
+
+	</head>
+
+	<body class="text-center">
+		<form class="form-signin">
+			<img class="mb-4" th:src="@{/asserts/img/bootstrap-solid.svg}" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+            <!--如果msg的值不为空，则显示消息-->
+<!--            <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>-->
+
+			<label class="sr-only">Username</label>
+			<input type="text" class="form-control" id="floginacct" name="username" value="张三" required="" autofocus="">
+			<label class="sr-only">Password</label>
+			<input type="password" class="form-control" id="fuserpswd" name="password" value="456" required="">
+			<div class="checkbox mb-3">
+				<input>
+                    <input type="checkbox" value="remember-me">remember-me
+                </label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="button" id="loginBtn">Sign in</button>
+			<p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+
+            <div id="userload" hidden="hidden">
+                <img id="headPic" width="100px" height="100px">
+                <a class="btn btn-lg btn-primary btn-block" type="button" id="picBtn" href="picUpload.html">修改用户头像</a>
+                <a class="btn btn-lg btn-primary btn-block" type="button" id="logoutBtn" th:href="@{/api/user/logout}">登出</a>
+                <div id="pswUpdate">
+                    <!--<a class="btn btn-lg btn-primary btn-block" type="button" id="pswBtn" href="passwordUpdate.html">修改用户头像</a>-->
+                </div>
+            </div>
+		</form>
+
+
+        <script src="webjars/jquery/2.1.1/jquery.min.js"></script>
+        <script src="webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <script>
+            $("#loginBtn").click(function() {
+                /* ajax提交json数据*/
+                //通过标签id来获取标签
+                var floginacct = $("#floginacct");
+                var fuserpswd = $("#fuserpswd");
+
+                //表单数据校验：没问题才走ajax。也可以放在ajax的beforeSend回调函数里。
+                //对于表单数据而言不能用null进行判断,如果文本框什么都不输入,获取的值是""
+                if ($.trim(floginacct.val()) == "") {		//$.trim()去掉字符串前后两端空格
+                    alert("用户账号不能为空,请重新输入!");
+                    floginacct.val("");		//清掉空格
+                    floginacct.focus();		//focus()获取焦点，即鼠标停在此处
+                    return false;
+                }
+                if ($.trim(fuserpswd.val()) == "") {
+                    alert("登录用户密码不允许为空!");
+                    fuserpswd.focus();
+                    return false;
+                }
+
+                jsonObj = {
+                    username : floginacct.val(),	//前端的key可加或不加引号
+                    password : fuserpswd.val(),
+                };
+                $.ajax({
+                    type: "POST",	//$.ajax()函数中{}里的属性名称可以不用引号引起来.
+                    //url: "/logintest",
+                    url: "/api/user/login",
+                    data : JSON.stringify(jsonObj),
+
+                    //设置你收到服务器数据的格式
+                    dataType:"json",
+
+                    //设置你发送给服务器的格式
+                    //data数据要转换成json串。JSON.stringify(jsonObj)
+                    //@Controller的方法要加@RequestBody
+                    contentType: "application/json;charset=utf-8;",
+
+                    /*	beforeSend： 在发送请求之前调用。
+                        一般是完成提交请求前的准备工作:例如表单数据校验.
+                     */
+                    beforeSend: function () {
+                        return true;//继续发起ajax请求.如果返回 false 可以取消本次 ajax 请求。
+                    },
+
+                    /*	success： 请求成功后的回调函数。
+                        表示服务器端成功处理请求,并返回结果的处理。
+                     */
+                    success: function (data) {
+                        $("#userload").removeAttr("hidden");
+                        $("#headPic").attr("src",data.user.imageUrl);
+
+                        console.log("data:"+ JSON.stringify(data));
+                        console.log("imageUrl：" + data.user.imageUrl);
+                        console.log("id:"+ data.user.id.toString());
+
+                        //th:href="@{passwordUpdate.html}"
+                        //行不通
+                        //$("#pswBtn").attr("th:href","@{passwordUpdate.html}");
+                        //可行
+                        //var content = '<a class="btn btn-lg btn-primary btn-block" type="button" id="pswBtn" th:href="@{passwordUpdate.html}">修改用户头像</a>';
+                        var content = "";
+                        content += '<a class="btn btn-lg btn-primary btn-block" type="button" id="pswBtn" href="passwordUpdate.html?id=';
+                        content += data.user.id.toString();
+                        content += '">修改用户密码</a>';
+                        $("#pswUpdate").html(content);
+                    },
+
+                });
+            })
+        </script>
+
+	</body>
+
+
+
+
+</html>
