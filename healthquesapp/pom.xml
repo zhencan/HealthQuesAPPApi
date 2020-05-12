@@ -19,6 +19,13 @@
     </properties>
 
     <dependencies>
+        <!--加解密Java库 -->
+        <!--在此用于对连接数据库密码的加密-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.1</version>
+        </dependency>
 
         <!--引入bootstrap/jquery-webjar 在访问的时候只需要写 webjars下面资源的名称即可-->
         <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
