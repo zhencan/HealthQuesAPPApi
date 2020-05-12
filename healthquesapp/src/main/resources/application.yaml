@@ -1,0 +1,49 @@
+# 配置端口
+server:
+  port: 8080
+
+spring:
+  # 关闭模板引擎缓存
+  thymeleaf:
+    cache: false
+
+  # 配置数据库连接
+  datasource:
+    url: jdbc:mysql://47.102.112.185:3306/healthyques?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: ENC(f4fzXPHnWww5sSETHu6naw==)
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      # 是否支持 multipart 上传文件
+      enabled: true
+      # 设置单个文件最大
+      max-file-size: 20MB
+      # 设置总上传数据总大小
+      max-request-size: 20MB
+
+
+# 整合mybatis
+mybatis:
+  type-aliases-package: com.secondgroup.pojo
+  mapper-locations: classpath:mapper/*.xml
+
+alisms:
+  # AccessKey管理里的accessKeyId
+  accessKeyId: LTAI4Fdy4tkBpisJMdLAzLfb
+  # AccessKey管理里的Secret
+  accessSecret: 19urzIWut0jGek89O7itEnnT7rAD95
+  # 短信签名名称
+  signName: 韩师1753第二组
+  # 模版code
+  templateCode: SMS_187495025
+
+#jasypt加密的盐值
+jasypt:
+  encryptor:
+    password: erp
+
+

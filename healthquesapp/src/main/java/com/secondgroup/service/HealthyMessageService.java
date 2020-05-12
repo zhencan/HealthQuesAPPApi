@@ -1,0 +1,42 @@
+/**
+ * FileName: QuestionnaireTemplateService
+ * Author:   ZSX
+ * Date:     2020/4/14 10:42
+ * Description:
+ * History:
+ * <author>          <time>          <version>          <desc>
+ * 作者姓名           修改时间           版本号              描述
+ */
+package com.secondgroup.service;
+
+import com.secondgroup.mapper.HealthyMessageMapper;
+import com.secondgroup.pojo.HealthyMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 〈一句话功能简述〉<br> 
+ * 〈〉
+ *
+ * @author ZSX
+ * @create 2020/4/14
+ * @since 1.0.0
+ */
+@Service
+public class HealthyMessageService {
+
+    @Autowired
+    HealthyMessageMapper healthyMessageMapper;
+
+    public List<HealthyMessage> selectAllByUserId(Integer id) {
+        return healthyMessageMapper.selectAllByUserId(id);
+    }
+
+
+    public int updateQuesOption(Map<String, Object> paramMap) {
+        return healthyMessageMapper.updateQuesOption(paramMap);
+    }
+}

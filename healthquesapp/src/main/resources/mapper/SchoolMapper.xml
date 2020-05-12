@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.secondgroup.mapper.SchoolMapper">
+  <resultMap id="BaseResultMap" type="com.secondgroup.pojo.School">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+    <result column="at_create" jdbcType="INTEGER" property="atCreate" />
+    <result column="at_update" jdbcType="INTEGER" property="atUpdate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from phq_school
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.secondgroup.pojo.School">
+    insert into phq_school (id, school_name, at_create, 
+      at_update)
+    values (#{id,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, #{atCreate,jdbcType=INTEGER}, 
+      #{atUpdate,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.secondgroup.pojo.School">
+    update phq_school
+    set school_name = #{schoolName,jdbcType=VARCHAR},
+      at_create = #{atCreate,jdbcType=INTEGER},
+      at_update = #{atUpdate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, school_name, at_create, at_update
+    from phq_school
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, school_name, at_create, at_update
+    from phq_school
+  </select>
+</mapper>
